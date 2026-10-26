@@ -1,0 +1,4 @@
+const Nav = {
+  init() { document.getElementById('bottomnav')?.addEventListener('click', event => { const button = event.target.closest('[data-nav]'); if (button) this.go(button.dataset.nav); }); this.go(State.data.settings.activeTab || 'earn'); },
+  go(screen) { if (!['earn', 'business', 'invest', 'items', 'profile'].includes(screen)) screen = 'earn'; State.data.settings.activeTab = screen; document.querySelectorAll('[data-screen]').forEach(node => { const active = node.dataset.screen === screen; node.classList.toggle('is-active', active); node.setAttribute('aria-hidden', String(!active)); }); document.querySelectorAll('[data-nav]').forEach(node => { const active = node.dataset.nav === screen; node.classList.toggle('is-active', active); node.setAttribute('aria-current', active ? 'page' : 'false'); }); State.save(); }
+};

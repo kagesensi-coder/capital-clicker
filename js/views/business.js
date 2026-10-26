@@ -1,0 +1,8 @@
+const BusinessView = {
+  render() {
+    const list = document.getElementById('business-list'); if (!list) return;
+    let units = 0, merges = 0; list.innerHTML = CONFIG.business.data.map(item => { const owned = State.business.get(item.id); units += owned.units; merges += owned.merge; const cost = Economy.getBusinessCost(item.id); const income = Economy.getBusinessIncome(item.id); return `<article class="card business-card"><div class="business-card__header"><span class="business-card__icon">${item.icon}</span><div><strong>${Utils.escape(item.name)}</strong><small>${Utils.escape(item.category)}</small></div></div><div class="business-card__stats"><span>${owned.units} объектов</span><span>${Utils.fmtMoney(income, false)} / ч</span></div><div class="business-card__actions"><button class="btn btn--primary" data-action="buy-business" data-id="${item.id}" ${State.data.balance + 1e-8 < cost ? 'disabled' : ''}>Открыть · ${Utils.fmtCompact(cost)}</button><button class="btn btn--ghost" data-action="merge-business" data-id="${item.id}" ${owned.units < 2 ? 'disabled' : ''}>Слияние</button></div></article>`; }).join('');
+    const unitsNode = document.getElementById('business-units'); if (unitsNode) unitsNode.textContent = `${units} объектов · ${merges} слияний`;
+  },
+  init() { document.getElementById('business-list')?.addEventListener('click', event => { const button = event.target.closest('[data-action]'); if (!button) return; const result = button.dataset.action === 'buy-business' ? Economy.buyBusiness(button.dataset.id) : Economy.mergeBusiness(button.dataset.id); UI.showToast(result.message, result.ok ? 'success' : 'error'); if (result.ok) { TelegramAPI.notify('success'); State.save(); UI.renderAll(); } }); }
+};
