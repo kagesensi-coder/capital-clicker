@@ -1,10 +1,10 @@
 (() => {
   function tick() {
     const now = Date.now(), previous = State.data.lastTick || now, elapsed = Math.min(Math.max(0, (now - previous) / 1000), 60);
-    if (elapsed > 0) State.addMoney(Economy.getPassivePerSecond() * elapsed);
+    if (elapsed > 0) State.addMoney(Economy.accruePassive(elapsed));
     const marketChanged = Economy.updateMarket(now);
     State.data.lastTick = now; State.data.lastSeen = now; State.save();
-    UI.renderBalance(); UI.renderBoosts();
+    UI.renderBalance(); UI.renderBoosts(); BusinessView.refreshFuelCard();
     if (marketChanged) { InvestView.refreshMarket(); ProfileView.render(); }
   }
   function boot() {

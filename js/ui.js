@@ -12,6 +12,7 @@ const UI = {
   renderBalance() {
     const balance = Utils.fmtMoney(State.data.balance), hour = Economy.getBusinessIncomePerHour() + Economy.getInvestmentIncomePerHour(), sec = Economy.getPassivePerSecond();
     for (const [id, value] of [['earn-balance', balance], ['earn-income-hour', Utils.fmtMoney(hour, false)], ['earn-income-sec', Utils.fmtMoney(sec, false)], ['business-income', `${Utils.fmtMoney(hour, false)} / ч`], ['topbar-income', `${Utils.fmtMoney(hour, false)} / час`], ['profile-networth', Utils.fmtMoney(Economy.getNetWorth(), false)]]) { const node = document.getElementById(id); if (node) node.textContent = value; }
+    BusinessView?.refreshAvailability?.(); ItemsView?.refreshAvailability?.();
   },
   renderLevel() {
     const next = Economy.levelRequirement(State.data.level), percent = Math.min(100, State.data.xp / next * 100);

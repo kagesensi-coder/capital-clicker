@@ -1,6 +1,6 @@
 /* Game balance and catalog. All recurring income is stored per hour. */
 const CONFIG = Object.freeze({
-  version: 2,
+  version: 3,
   storageKey: 'capital_clicker_state_v2',
   offline: { maxSeconds: 8 * 60 * 60, efficiency: 0.5 },
   market: {
@@ -23,7 +23,13 @@ const CONFIG = Object.freeze({
   click: { base: 1, exp: 1.28, critChance: 0.05, critMult: 5 },
   business: {
     costGrowth: 1.15, incomeGrowth: 1.06, mergeMultiplier: 2,
-    mergeCostFactor: 1.6, resaleRate: 0.7,
+    mergeCostFactor: 1.6, resaleRate: 0.7, maxUnits: 20, maxMerge: 20,
+    fleet: {
+      taxi: { label: 'Автомобили', shortLabel: 'авто', initialSlots: 5, maxSlots: 20, slotStep: 5, vehicleCostFactor: 0.12, slotCostFactor: 3, slotCostGrowth: 1.5 },
+      trucks: { label: 'Грузовики', shortLabel: 'фуры', initialSlots: 5, maxSlots: 20, slotStep: 5, vehicleCostFactor: 0.15, slotCostFactor: 3, slotCostGrowth: 1.5 },
+      airline: { label: 'Самолёты', shortLabel: 'самолёты', initialSlots: 2, maxSlots: 20, slotStep: 1, vehicleCostFactor: 0.2, slotCostFactor: 3, slotCostGrowth: 1.5 }
+    },
+    fuel: { capacity: 10000, tankerSize: 1000, tankerCostFactor: 0.05, consumptionPerHour: 1 },
     data: [
       { id: 'coffee', name: 'Кофейня «Утро»', category: 'business', icon: '☕', baseCost: 100, baseIncome: 30 },
       { id: 'shaurma', name: 'Ларёк с шаурмой', category: 'business', icon: '🌯', baseCost: 750, baseIncome: 200 },
